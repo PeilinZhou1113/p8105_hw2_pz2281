@@ -45,3 +45,11 @@ Combine data
 
 
 
+Data Summaries
+
+The Mr.Trash Wheel dataset contains litter data for total of `r nrow(trash_wheel_df)` dumpsters through `r length(unique(trash_wheel_df$year))` years. There are `r ncol(trash_wheel_df)` variables in this dataset. For all of the dumpsters, the average number of plastic bottles they received through the five-year span is `r round(mean(trash_wheel_df$plastic_bottles))` and the average number of cigarette butts is `r round(mean(trash_wheel_df$cigarette_butts))`. The amount of total litter that that trash wheel had collected in 5 years is `r sum(trash_wheel_df$weight_tons)` tons.
+
+The number of observation is `r nrow(pre_2018)` for the 2018 precipitation data and `r nrow(pre_2019)` for the 2019 data. Both datasets have `r ncol(pre_2018)` variables, including month, year, and precipitation amount in inches. The total amount of precipitation in 2018 was `r sum(pre_2018$total)` inches and the average amount  was `r mean(pre_2018$total)` inches. The total amount of precipitation in 2019 (data for `r nrow(pre_2019)` months) was `r sum(pre_2019$total)` inches and the median was `r median(pre_2019$total)` inches. The conmbined dataset contains precipitation data for both 2018 and 2019. The total amount of precipitation was `r sum(tidy_pre$total)` and the average was `r mean(tidy_pre$total)`.
+
+
+
