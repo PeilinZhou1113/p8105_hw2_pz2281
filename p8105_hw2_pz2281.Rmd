@@ -122,15 +122,18 @@ pop_names =
    janitor::clean_names() %>% 
    mutate(ethnicity = gsub(" ", "_", ethnicity)) %>% 
    mutate(gender = tolower(gender), ethnicity = tolower(ethnicity)) %>% 
-   mutate(ethnicity = recode(ethnicity, "asian_and_pacific_islander" = "asian_and_paci", "white_non_hispanic" = "white_non_hisp", "black_non_hispanic" = "black_non_hisp"))
+   mutate(ethnicity = recode(ethnicity, "asian_and_pacific_islander" = "asian_and_paci", "white_non_hispanic" = "white_non_hisp", "black_non_hispanic" = "black_non_hisp")) %>% 
+  distinct()
 ```
 
-Check out the names in ethnicity to find the redundant changes.
+Check out the names in ethnicity to find the redundant changes (output should reflect unique ethnicity groups after correction). Then, recode categorical values in ethnicity in the previous pipeline.
 ```{r}
 unique(pop_names$ethnicity)
 ```
 
-Then, recode categorical values in ethnicity in the previous pipeline.
+
+
+
 
 
 
