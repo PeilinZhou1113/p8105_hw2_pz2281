@@ -55,7 +55,7 @@ The number of observation is `r nrow(pre_2018)` for the 2018 precipitation data 
 
 Import and tidy pols-month data
 
-```{r}
+```{r, message = FALSE}
 pols_month =
   read_csv("./data/fivethirtyeight_datasets/pols-month.csv") %>% 
   separate(mon, into = c("year", "month","day"), sep = "-") %>% 
@@ -64,6 +64,18 @@ pols_month =
   mutate(president = ifelse(prez_gop == 1, "gop", "dem")) %>% 
   select(-prez_dem,-prez_gop,-day)
 ```
+
+Import and tidy snp data
+
+```{r, message = FALSE}
+snp_df = 
+  read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
+  mutate(date = lubridate::mdy(date)) %>% 
+  separate(date, into = c("year","month", "day"), sep = "-") %>% 
+  arrange(year,month) %>% 
+  relocate(year,month)
+```
+
 
 
 
