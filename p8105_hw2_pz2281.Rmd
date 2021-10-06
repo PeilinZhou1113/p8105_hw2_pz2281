@@ -9,9 +9,8 @@ library(tidyverse)
 ```
 ## Problem 1
 
-Read in Mr.Trash Wheel data
+Read in and tidy Mr.Trash Wheel data
 
-Tidy Mr.Trash Wheel dataset
 ```{r}
 trash_wheel_df = 
   readxl::read_excel("./data/Trash_Wheel.xlsx", range = "A2:N406") %>% 
@@ -113,7 +112,14 @@ The unemployment dataset contains `r nrow(unemp_df)` observations and `r ncol(un
 
 The merge_df is a merged dataframe from the three datasets above (snp_df and unemp_df merged into pols_month). The keys to merge the set were year and month. It contains `r nrow(merge_df)` observations and `r ncol(merge_df)` variables, which is the conbination of the previous variables in pols_month with closing market index and unemployment rate with the associated date from the pols_month data. Since two dataframes were merged into pols_month, the range of year maintains the same as that in pols_month.
 
+## Problem 3
 
+read in and tidy the data
+
+```{r, message = FALSE}
+pop_names = 
+   read_csv("./data/Popular_Baby_Names.csv") 
+```
 
 
 
