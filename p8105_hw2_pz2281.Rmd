@@ -75,7 +75,8 @@ snp_df =
   mutate(month = as.numeric(month)) %>%
   mutate(month = month.name[month]) %>% 
   arrange(year,month) %>% 
-  relocate(year,month)
+  relocate(year,month) %>% 
+  select(-day)
 ```
 
 Import and tidy unemployment data
@@ -96,12 +97,9 @@ unemp_df =
 Merge snp_df to pols_month and then merge unemp_df into the merged data using `left_join`
 
 ```{r}
-pols_snp_df = 
-  left_join(pols_month, snp_df, by = c("year", "month"))
+pols_snp_df = left_join(pols_month, snp_df, by = c("year", "month"))
 
-merge_df = 
-  left_join(pols_snp_df, unemp_df, by = c("year", "month"))
-
+merge_df = left_join(pols_snp_df, unemp_df, by = c("year", "month"))
 ```
 
 
