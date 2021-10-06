@@ -71,7 +71,9 @@ Import and tidy snp data
 snp_df = 
   read_csv("./data/fivethirtyeight_datasets/snp.csv") %>% 
   mutate(date = lubridate::mdy(date)) %>% 
-  separate(date, into = c("year","month", "day"), sep = "-") %>% 
+  separate(date, into = c("year","month", "day"), sep = "-") %>%
+  mutate(month = as.numeric(month)) %>%
+  mutate(month = month.name[month]) %>% 
   arrange(year,month) %>% 
   relocate(year,month)
 ```
@@ -88,8 +90,9 @@ unemp_df =
   mutate(month = match(month,month.abb)) %>% 
   mutate(month = month.name[month]) %>% 
   janitor::clean_names()
-
 ```
+
+
 
 
 
