@@ -7,7 +7,9 @@ output: github_document
 ```{r setup, include=FALSE}
 library(tidyverse)
 ```
-## Read in Mr.Trash Wheel data
+## Problem 1
+
+Read in Mr.Trash Wheel data
 
 Tidy Mr.Trash Wheel dataset
 ```{r}
@@ -31,5 +33,15 @@ pre_2019 =
   janitor::clean_names() %>% 
   mutate(year = "2019")
 ```
+
+Combine data
+
+```{r}
+ tidy_pre = 
+  bind_rows(pre_2018,pre_2019) %>% 
+  relocate(year) %>% 
+  mutate(month = month.name[month])
+```
+
 
 
