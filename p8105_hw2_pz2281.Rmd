@@ -114,12 +114,24 @@ The merge_df is a merged dataframe from the three datasets above (snp_df and une
 
 ## Problem 3
 
-read in and tidy the data
+read in and tidy the data. 
 
 ```{r, message = FALSE}
 pop_names = 
-   read_csv("./data/Popular_Baby_Names.csv") 
+   read_csv("./data/Popular_Baby_Names.csv") %>% 
+   janitor::clean_names() %>% 
+   mutate(ethnicity = gsub(" ", "_", ethnicity)) %>% 
+   mutate(gender = tolower(gender), ethnicity = tolower(ethnicity)) %>% 
+   mutate(ethnicity = recode(ethnicity, "asian_and_pacific_islander" = "asian_and_paci", "white_non_hispanic" = "white_non_hisp", "black_non_hispanic" = "black_non_hisp"))
 ```
+
+Check out the names in ethnicity to find the redundant changes.
+```{r}
+unique(pop_names$ethnicity)
+```
+
+Then, recode categorical values in ethnicity in the previous pipeline.
+
 
 
 
