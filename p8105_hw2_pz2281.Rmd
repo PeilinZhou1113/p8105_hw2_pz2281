@@ -76,6 +76,22 @@ snp_df =
   relocate(year,month)
 ```
 
+Import and tidy unemployment data
+
+```{r, message = FALSE}
+unemp_df = 
+  read_csv("./data/fivethirtyeight_datasets/unemployment.csv") %>% 
+  pivot_longer(
+    Jan:Dec,
+    names_to = "month",
+    values_to = "unemployment") %>% 
+  mutate(month = match(month,month.abb)) %>% 
+  mutate(month = month.name[month]) %>% 
+  janitor::clean_names()
+
+```
+
+
 
 
 
