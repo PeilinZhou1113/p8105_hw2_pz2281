@@ -69,17 +69,26 @@ Import and tidy snp data
 
 ```{r, message = FALSE}
 snp_df_raw = read_csv("./data/fivethirtyeight_datasets/snp.csv")
-row_id = rownames(snp_df_raw)
+snp_new = snp_df_raw[1:175, ] %>% 
+  separate(date, into = c("year", "month", "day"), sep = "/") %>% 
+  mutate(year = as.numeric(year) + 2000) %>%
+  mutate(year = as.character(year)) %>% 
+  relocate(month, day, year, close)
+
 snp_df  = snp_df_raw %>% 
-  mutate(row_id) %>% 
-  separate(date, into = c("month", "day", "year"), sep = "/") %>% 
-  mutate(month = as.numeric(month)) %>%
-  mutate(year = ifelse(as.numeric(row_id) > max(which(year %in% "00")), sub("^", "19", year), sub("^", "20",year))) %>%
-  mutate(month = month.name[month]) %>% 
+  separate(date, into = c("month", "day", "year"), sep = "/")
+
+snp_df[1:175, ] = snp_new
+snp_df = snp_df %>% 
+  mutate(year = ifelse(nchar(year) < 4, sub("^", "19", year), year)) %>%
+  mutate(year = ifelse(year == "1900", sub("19", "20", year), year)) %>% 
+  mutate(month = as.numeric(month)) %>% 
   arrange(year,month) %>% 
+  mutate(month = month.name[month]) %>% 
   relocate(year,month) %>% 
-  select(-day,-row_id)
+  select(-day)
 ```
+
 
 Import and tidy unemployment data
 
@@ -113,7 +122,8 @@ The snp dataset contains `r nrow(snp_df)` observations and `r ncol(snp_df)` vari
 
 The unemployment dataset contains `r nrow(unemp_df)` observations and `r ncol(unemp_df)` variables. It is related to the unemployment rate within given dates. The year range is `r max(as.numeric(unemp_df$year)) - min(as.numeric(unemp_df$year))` from `r min(as.numeric(unemp_df$year))` to  `r max(as.numeric(unemp_df$year))`. The key variable in this dataset is unemployment which specifies the percentage of unemployment on associated data (year-month). The average unemployment rate is `r mean(unemp_df$unemployment, na.rm = TRUE)`%. The highest unemployment rate is `r max(unemp_df$unemployment, na.rm = TRUE)`% and the lowest is `r min(unemp_df$unemployment, na.rm = TRUE)`%.
 
-The merge_df is a merged dataframe from the three datasets above (snp_df and unemp_df merged into pols_month). The keys to merge the set were year and month. It contains `r nrow(merge_df)` observations and `r ncol(merge_df)` variables, which is the conbination of the previous variables in pols_month with closing market index and unemployment rate with the associated date from the pols_month data. Since two dataframes were merged into pols_month, the range of year maintains the same as that in pols_month.
+
+The merge_df is a merged dataframe from the three datasets above (snp_df and unemp_df merged into pols_month). The keys to merge the set were year and month. It contains  `r dim(merge_df)[1]` observations and `r ncol(merge_df)` variables, which is the conbination of the previous variables in pols_month with closing market index and unemployment rate with the associated date from the pols_month data. Since two dataframes were merged into pols_month, the range of year maintains the same as that in pols_month.
 
 ## Problem 3
 
@@ -176,7 +186,8 @@ Plot the scatterplot
 
 ```{r}
 plt_white_nonhis_2016 = ggplot(white_nonhis_2016, aes(x = rank, y = count)) + 
-  geom_point(color = 'blue') + geom_text(aes(label = childs_first_name), hjust = 0.25,  vjust = -1)
+  geom_point(color = 'blue')
+#+ geom_text(aes(label = childs_first_name), hjust = 0.25,  vjust = -1)
 
 plt_white_nonhis_2016 + labs(title = "Count vs Rank of Popularity of Names", subtitle = "for White Non-hispanic Children Born in 2016")
 ```
