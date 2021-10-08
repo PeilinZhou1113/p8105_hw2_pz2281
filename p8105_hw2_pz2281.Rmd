@@ -14,7 +14,7 @@ Read in and tidy Mr.Trash Wheel data
 
 ```{r}
 trash_wheel_df = 
-  readxl::read_excel("./data/Trash_Wheel.xlsx", range = "A2:N406") %>% 
+  readxl::read_excel("./data/Trash-Wheel-New.xlsx", range = "A2:N533") %>% 
   janitor::clean_names() %>% 
   drop_na(dumpster) %>% 
   mutate(sports_balls = round(sports_balls))
@@ -24,12 +24,12 @@ Import and tidy precipitation data for 2018 and 2019
 
 ```{r}
 pre_2018 = 
-  readxl::read_excel("./data/Trash_Wheel.xlsx", sheet = 5, range = "A2:B14") %>%
+  readxl::read_excel("./data/Trash-Wheel-New.xlsx", sheet = 7, range = "A2:B14") %>%
   janitor::clean_names() %>% 
   mutate(year = "2018")
 
 pre_2019 = 
-  readxl::read_excel("./data/Trash_Wheel.xlsx", sheet = 4, range = "A2:B8") %>% 
+  readxl::read_excel("./data/Trash-Wheel-New.xlsx", sheet = 6, range = "A2:B14") %>% 
   janitor::clean_names() %>% 
   mutate(year = "2019")
 ```
@@ -61,7 +61,7 @@ pols_month =
   separate(mon, into = c("year", "month","day"), sep = "-") %>% 
   mutate(month = as.numeric(month)) %>% 
   mutate(month = month.name[month]) %>% 
-  mutate(president = ifelse(prez_gop == 1, "gop", "dem")) %>% 
+  mutate(president = ifelse(prez_gop == 1 | prez_gop == 2, "gop", "dem")) %>% 
   select(-prez_dem,-prez_gop,-day)
 ```
 
